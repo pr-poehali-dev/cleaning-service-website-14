@@ -128,7 +128,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </div>
           </div>
           <div className="border-t border-sky-600 mt-8 pt-5 text-center text-sky-300 text-sm">
-            © Иванов И.И. 2026. Учебный проект по теме «Клининговые услуги»
+            © Жижин А.Н. 2026. Учебный проект по теме «Клининговые услуги»
           </div>
         </div>
       </footer>

@@ -39,14 +39,13 @@ export default function Author() {
                 </div>
               </div>
 
-              <h2 className="text-2xl font-bold text-slate-800 mb-1">Иванов Иван Иванович</h2>
-              <p className="text-sky-600 font-semibold mb-6">Группа: ИС-201</p>
+              <h2 className="text-2xl font-bold text-slate-800 mb-1">Жижин Артём Николаевич</h2>
+              <p className="text-sky-600 font-semibold mb-6">Группа: ПОНБгп24о2</p>
 
               <div className="grid sm:grid-cols-2 gap-4 mb-8">
                 {[
-                  { icon: "User", label: "ФИО", value: "Иванов Иван Иванович" },
-                  { icon: "Users", label: "Группа", value: "ИС-201" },
-                  { icon: "Building", label: "Специальность", value: "Информационные системы" },
+                  { icon: "User", label: "ФИО", value: "Жижин Артём Николаевич" },
+                  { icon: "Users", label: "Группа", value: "ПОНБгп24о2" },
                   { icon: "Calendar", label: "Год создания", value: "2026" },
                 ].map((item) => (
                   <div key={item.label} className="bg-sky-50 rounded-xl p-4">
@@ -103,7 +102,7 @@ export default function Author() {
         <div className="max-w-3xl mx-auto px-6 text-center">
           <div className="inline-flex items-center gap-2 bg-sky-100 text-sky-700 text-sm px-5 py-3 rounded-xl font-medium">
             <Icon name="Copyright" size={16} />
-            Иванов И.И. · 2026 · Учебный проект
+            Жижин А.Н. · 2026 · Учебный проект
           </div>
           <p className="text-slate-400 text-sm mt-3">
             Все материалы сайта являются учебными и не имеют коммерческого назначения
