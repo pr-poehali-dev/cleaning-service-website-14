@@ -1,5 +1,7 @@
+import { useState } from "react";
 import Layout from "@/components/Layout";
 import Icon from "@/components/ui/icon";
+import func2url from "../../backend/func2url.json";
 
 const contactInfo = [
   {
@@ -29,6 +31,35 @@ const contactInfo = [
 ];
 
 export default function Contacts() {
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [service, setService] = useState("");
+  const [comment, setComment] = useState("");
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus("loading");
+    try {
+      const res = await fetch(func2url["send-contact"], {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, phone, service, comment }),
+      });
+      if (res.ok) {
+        setStatus("success");
+        setName("");
+        setPhone("");
+        setService("");
+        setComment("");
+      } else {
+        setStatus("error");
+      }
+    } catch {
+      setStatus("error");
+    }
+  };
+
   return (
     <Layout>
       {/* Hero */}
@@ -81,49 +112,84 @@ export default function Contacts() {
           <div>
             <h2 className="text-2xl font-bold text-slate-800 mb-8">Оставить заявку</h2>
             <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-8">
-              <div className="space-y-5">
-                <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-1.5">Ваше имя</label>
-                  <input
-                    type="text"
-                    placeholder="Иван Иванов"
-                    className="w-full px-4 py-3 rounded-xl border border-slate-200 text-slate-800 placeholder-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent transition-all text-sm"
-                  />
+              {status === "success" ? (
+                <div className="flex flex-col items-center justify-center py-10 text-center gap-4">
+                  <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
+                    <Icon name="CheckCircle" size={36} className="text-green-500" />
+                  </div>
+                  <h3 className="text-xl font-bold text-slate-800">Заявка отправлена!</h3>
+                  <p className="text-slate-500 text-sm">Мы получили вашу заявку и перезвоним в течение 15 минут.</p>
+                  <button
+                    onClick={() => setStatus("idle")}
+                    className="mt-2 text-sky-600 text-sm font-medium hover:underline"
+                  >
+                    Отправить ещё одну заявку
+                  </button>
                 </div>
-                <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-1.5">Телефон</label>
-                  <input
-                    type="tel"
-                    placeholder="+7 (___) ___-__-__"
-                    className="w-full px-4 py-3 rounded-xl border border-slate-200 text-slate-800 placeholder-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent transition-all text-sm"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-1.5">Тип услуги</label>
-                  <select className="w-full px-4 py-3 rounded-xl border border-slate-200 text-slate-700 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent transition-all text-sm bg-white">
-                    <option value="">Выберите услугу</option>
-                    <option>Уборка квартиры</option>
-                    <option>Уборка офиса</option>
-                    <option>Уборка после ремонта</option>
-                    <option>Химчистка мебели</option>
-                    <option>Мытьё окон</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-1.5">Комментарий</label>
-                  <textarea
-                    rows={4}
-                    placeholder="Опишите задачу, площадь помещения и любые пожелания..."
-                    className="w-full px-4 py-3 rounded-xl border border-slate-200 text-slate-800 placeholder-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent transition-all text-sm resize-none"
-                  />
-                </div>
-                <button className="w-full bg-sky-500 hover:bg-sky-600 text-white font-semibold py-3.5 rounded-xl transition-all shadow-md hover:shadow-lg">
-                  Отправить заявку
-                </button>
-                <p className="text-slate-400 text-xs text-center">
-                  Нажимая кнопку, вы соглашаетесь с обработкой персональных данных
-                </p>
-              </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-5">
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-1.5">Ваше имя</label>
+                    <input
+                      type="text"
+                      placeholder="Иван Иванов"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      required
+                      className="w-full px-4 py-3 rounded-xl border border-slate-200 text-slate-800 placeholder-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent transition-all text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-1.5">Телефон</label>
+                    <input
+                      type="tel"
+                      placeholder="+7 (___) ___-__-__"
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                      required
+                      className="w-full px-4 py-3 rounded-xl border border-slate-200 text-slate-800 placeholder-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent transition-all text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-1.5">Тип услуги</label>
+                    <select
+                      value={service}
+                      onChange={(e) => setService(e.target.value)}
+                      className="w-full px-4 py-3 rounded-xl border border-slate-200 text-slate-700 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent transition-all text-sm bg-white"
+                    >
+                      <option value="">Выберите услугу</option>
+                      <option>Уборка квартиры</option>
+                      <option>Уборка офиса</option>
+                      <option>Уборка после ремонта</option>
+                      <option>Химчистка мебели</option>
+                      <option>Мытьё окон</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-1.5">Комментарий</label>
+                    <textarea
+                      rows={4}
+                      placeholder="Опишите задачу, площадь помещения и любые пожелания..."
+                      value={comment}
+                      onChange={(e) => setComment(e.target.value)}
+                      className="w-full px-4 py-3 rounded-xl border border-slate-200 text-slate-800 placeholder-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent transition-all text-sm resize-none"
+                    />
+                  </div>
+                  {status === "error" && (
+                    <p className="text-red-500 text-sm text-center">Ошибка при отправке. Попробуйте ещё раз.</p>
+                  )}
+                  <button
+                    type="submit"
+                    disabled={status === "loading"}
+                    className="w-full bg-sky-500 hover:bg-sky-600 disabled:opacity-60 text-white font-semibold py-3.5 rounded-xl transition-all shadow-md hover:shadow-lg"
+                  >
+                    {status === "loading" ? "Отправляем..." : "Отправить заявку"}
+                  </button>
+                  <p className="text-slate-400 text-xs text-center">
+                    Нажимая кнопку, вы соглашаетесь с обработкой персональных данных
+                  </p>
+                </form>
+              )}
             </div>
 
             <div className="mt-6 bg-sky-50 rounded-2xl p-5 flex gap-3">
