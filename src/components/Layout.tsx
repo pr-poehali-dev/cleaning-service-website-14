@@ -114,7 +114,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <div className="space-y-2 text-sky-200 text-sm">
                 <div className="flex items-center gap-2">
                   <Icon name="Phone" size={14} />
-                  <span>+7 (800) 123-45-67</span>
+                  <span>+7 917 819 84 07</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Icon name="Mail" size={14} />

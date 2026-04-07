@@ -7,7 +7,7 @@ const contactInfo = [
   {
     icon: "Phone",
     title: "Телефон",
-    value: "+7 (800) 123-45-67",
+    value: "+7 917 819 84 07",
     sub: "Бесплатный звонок по России",
   },
   {
