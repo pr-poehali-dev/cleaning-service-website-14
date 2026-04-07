@@ -118,7 +118,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 </div>
                 <div className="flex items-center gap-2">
                   <Icon name="Mail" size={14} />
-                  <span>info@chistodom.ru</span>
+                  <span>zhizhin2006@list.ru</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Icon name="MapPin" size={14} />
