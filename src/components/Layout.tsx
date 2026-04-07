@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import Icon from "@/components/ui/icon";
+import ChatWidget from "@/components/ChatWidget";
 
 const navLinks = [
   { path: "/", label: "Главная" },
@@ -79,6 +80,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
       {/* Main content */}
       <main className="flex-1">{children}</main>
+      <ChatWidget />
 
       {/* Footer */}
       <footer className="bg-sky-700 text-white mt-auto">
