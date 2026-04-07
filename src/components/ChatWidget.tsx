@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import Icon from "@/components/ui/icon";
+import func2url from "../../backend/func2url.json";
 
 interface Message {
   id: number;
@@ -36,13 +37,19 @@ export default function ChatWidget() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  const sendMessage = () => {
+  const sendMessage = async () => {
     const text = input.trim();
     if (!text) return;
 
     const userMsg: Message = { id: Date.now(), text, from: "user", time: getTime() };
     setMessages((prev) => [...prev, userMsg]);
     setInput("");
+
+    fetch(func2url["send-chat-message"], {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: text }),
+    });
 
     setTimeout(() => {
       const botReply: Message = {
