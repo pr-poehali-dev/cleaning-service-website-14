@@ -31,6 +31,7 @@ const contactInfo = [
 ];
 
 export default function Contacts() {
+  const [activeTab, setActiveTab] = useState<"contacts" | "address">("contacts");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [service, setService] = useState("");
@@ -75,8 +76,33 @@ export default function Contacts() {
         </div>
       </section>
 
+      {/* Tabs */}
+      <section className="bg-white border-b border-slate-100">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="flex gap-1">
+            {[
+              { key: "contacts", label: "Контакты", icon: "Phone" },
+              { key: "address", label: "Адрес", icon: "MapPin" },
+            ].map((tab) => (
+              <button
+                key={tab.key}
+                onClick={() => setActiveTab(tab.key as "contacts" | "address")}
+                className={`flex items-center gap-2 px-5 py-4 text-sm font-medium border-b-2 transition-colors ${
+                  activeTab === tab.key
+                    ? "border-sky-500 text-sky-600"
+                    : "border-transparent text-slate-500 hover:text-slate-700"
+                }`}
+              >
+                <Icon name={tab.icon} size={16} fallback="Circle" />
+                {tab.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Contacts + Form */}
-      <section className="py-16 bg-white">
+      {activeTab === "contacts" && <section className="py-16 bg-white">
         <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12">
           {/* Info */}
           <div>
@@ -200,7 +226,48 @@ export default function Contacts() {
             </div>
           </div>
         </div>
-      </section>
+      </section>}
+
+      {/* Address tab */}
+      {activeTab === "address" && (
+        <section className="py-16 bg-white">
+          <div className="max-w-6xl mx-auto px-6">
+            <div className="mb-8">
+              <h2 className="text-2xl font-bold text-slate-800 mb-2">Наш офис</h2>
+              <div className="flex items-center gap-2 text-slate-500">
+                <Icon name="MapPin" size={16} className="text-sky-500" />
+                <span>г. Москва — центральный офис</span>
+              </div>
+            </div>
+            <div className="grid md:grid-cols-3 gap-8">
+              <div className="space-y-4">
+                <div className="p-5 bg-sky-50 rounded-2xl">
+                  <p className="text-xs font-semibold text-sky-600 uppercase tracking-wider mb-1">Адрес</p>
+                  <p className="font-semibold text-slate-800">Москва, ул. Чистая, д. 1</p>
+                </div>
+                <div className="p-5 bg-sky-50 rounded-2xl">
+                  <p className="text-xs font-semibold text-sky-600 uppercase tracking-wider mb-1">Режим работы</p>
+                  <p className="font-semibold text-slate-800">Пн–Пт: 9:00–18:00</p>
+                  <p className="text-slate-500 text-sm">Сб–Вс: по записи</p>
+                </div>
+                <div className="p-5 bg-sky-50 rounded-2xl">
+                  <p className="text-xs font-semibold text-sky-600 uppercase tracking-wider mb-1">Телефон</p>
+                  <p className="font-semibold text-slate-800">+7 917 819 84 07</p>
+                </div>
+              </div>
+              <div className="md:col-span-2 rounded-2xl overflow-hidden border border-slate-200 shadow-sm h-96">
+                <iframe
+                  src="https://www.openstreetmap.org/export/embed.html?bbox=37.5%2C55.7%2C37.7%2C55.8&layer=mapnik&marker=55.7558%2C37.6173"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  title="Карта офиса ЧистоДом"
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
     </Layout>
   );
 }
