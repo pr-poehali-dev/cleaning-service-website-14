@@ -11,7 +11,7 @@ const contactInfo = [
   {
     icon: "Mail",
     title: "Email",
-    value: "info@chistodom.ru",
+    value: "zhizhin2006@list.ru",
     sub: "Ответим в течение часа",
   },
   {
